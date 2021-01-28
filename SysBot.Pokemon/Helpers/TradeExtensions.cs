@@ -15,6 +15,7 @@ namespace SysBot.Pokemon
         public static List<string> TradeCordPath = new();
         public static List<string> TradeCordCooldown = new();
         public static byte[] Data = new byte[] { };
+        public static Random Random = new Random();
 
         public TradeExtensions(PokeTradeHub<PK8> hub)
         {
@@ -22,7 +23,6 @@ namespace SysBot.Pokemon
         }
 
         public static uint AlcremieDecoration { get => BitConverter.ToUInt32(Data, 0xE4); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE4); }
-
         public static int[] ValidEgg =
                 { 1, 4, 7, 10, 27, 29, 32, 37, 41, 43, 50, 52, 54, 58, 60, 63, 66, 72,
                   77, 79, 81, 83, 90, 92, 95, 98, 102, 104, 108, 109, 111, 114, 115, 116,
@@ -56,70 +56,25 @@ namespace SysBot.Pokemon
                                         785, 786, 787, 788, 789, 790, 791, 792, 800, 801, 802, 807, 808, 809, 888, 889,
                                         890, 891, 892, 893, 894, 895, 896, 897, 898 };
 
-        public static int[] Cherish = { (int)Species.Bulbasaur, (int)Species.Venusaur, (int)Species.Charmander, (int)Species.Charizard, (int)Species.Squirtle, (int)Species.Blastoise,
-                                        (int)Species.Pikachu, (int)Species.Sandshrew, (int)Species.Vulpix, (int)Species.Ninetales, (int)Species.Diglett, (int)Species.Meowth, (int)Species.Psyduck,
-                                        (int)Species.Golduck, (int)Species.Arcanine, (int)Species.Machoke, (int)Species.Machamp, (int)Species.Ponyta, (int)Species.Slowpoke, (int)Species.Slowbro,
-                                        (int)Species.Haunter, (int)Species.Gengar, (int)Species.Exeggutor, (int)Species.Chansey, (int)Species.Kangaskhan, (int)Species.MrMime, (int)Species.Scyther,
-                                        (int)Species.Electabuzz, (int)Species.Magmar, (int)Species.Pinsir, (int)Species.Magikarp, (int)Species.Gyarados, (int)Species.Ditto, (int)Species.Toxapex,
-                                        (int)Species.Eevee, (int)Species.Vaporeon, (int)Species.Jolteon, (int)Species.Flareon, (int)Species.Omanyte, (int)Species.Kabuto, (int)Species.Aerodactyl,
-                                        (int)Species.Snorlax, (int)Species.Articuno, (int)Species.Zapdos, (int)Species.Moltres, (int)Species.Dragonite, (int)Species.Mewtwo, (int)Species.Mew,
-                                        (int)Species.Crobat, (int)Species.Politoed, (int)Species.Espeon, (int)Species.Umbreon, (int)Species.Wobbuffet, (int)Species.Scizor, (int)Species.Heracross,
-                                        (int)Species.Corsola, (int)Species.Octillery, (int)Species.TapuBulu, (int)Species.Whiscash, (int)Species.Torchic, (int)Species.Tangrowth, (int)Species.Feebas,
-                                        (int)Species.TapuFini, (int)Species.TapuKoko, (int)Species.TapuLele, (int)Species.Solgaleo, (int)Species.Lunala, (int)Species.Necrozma, (int)Species.Poipole,
-                                        (int)Species.Tyranitar, (int)Species.Nidoking, (int)Species.Nidoqueen, (int)Species.Delibird, (int)Species.Kingdra, (int)Species.Porygon2, (int)Species.Miltank,
-                                        (int)Species.Raikou, (int)Species.Entei, (int)Species.Lugia, (int)Species.HoOh, (int)Species.Celebi, (int)Species.Sceptile, (int)Species.Naganadel,
-                                        (int)Species.Blaziken, (int)Species.Swampert, (int)Species.Linoone, (int)Species.Ludicolo, (int)Species.Gardevoir, (int)Species.Sableye, (int)Species.Mawile,
-                                        (int)Species.Aggron, (int)Species.Manectric, (int)Species.Sharpedo, (int)Species.Altaria, (int)Species.Lunatone, (int)Species.Solrock, (int)Species.Lileep,
-                                        (int)Species.Anorith,  (int)Species.Milotic, (int)Species.Walrein, (int)Species.Salamence, (int)Species.Metagross, (int)Species.Latios, (int)Species.Latias,
-                                        (int)Species.Kyogre, (int)Species.Groudon, (int)Species.Rayquaza, (int)Species.Jirachi, (int)Species.Gastrodon, (int)Species.Spiritomb, (int)Species.Garchomp,
-                                        (int)Species.Munchlax, (int)Species.Lucario, (int)Species.Weavile, (int)Species.Electivire, (int)Species.Magmortar, (int)Species.Leafeon, (int)Species.Glaceon,
-                                        (int)Species.Rotom, (int)Species.Dialga, (int)Species.Palkia, (int)Species.Heatran, (int)Species.Regigigas, (int)Species.Giratina, (int)Species.Victini,
-                                        (int)Species.Audino, (int)Species.Whimsicott, (int)Species.Krookodile, (int)Species.Darmanitan, (int)Species.Scraggy, (int)Species.Scrafty, (int)Species.Cofagrigus,
-                                        (int)Species.Tirtouga, (int)Species.Archen, (int)Species.Zoroark, (int)Species.Karrablast, (int)Species.Shelmet, (int)Species.Chandelure, (int)Species.Axew,
-                                        (int)Species.Haxorus, (int)Species.Cubchoo, (int)Species.Mienshao, (int)Species.Bouffalant, (int)Species.Hydreigon, (int)Species.Volcarona, (int)Species.Tornadus,
-                                        (int)Species.Thundurus, (int)Species.Landorus, (int)Species.Reshiram, (int)Species.Zekrom, (int)Species.Kyurem, (int)Species.Keldeo, (int)Species.Genesect,
-                                        (int)Species.Pancham, (int)Species.Aegislash, (int)Species.Aromatisse, (int)Species.Inkay, (int)Species.Malamar, (int)Species.Tyrunt, (int)Species.Amaura,
-                                        (int)Species.Sylveon, (int)Species.Pumpkaboo, (int)Species.Xerneas, (int)Species.Yveltal, (int)Species.Zygarde, (int)Species.Diancie, (int)Species.Volcanion,
-                                        (int)Species.Rockruff, (int)Species.Lycanroc, (int)Species.Salazzle, (int)Species.Bewear, (int)Species.Steenee, (int)Species.Comfey, (int)Species.Turtonator,
-                                        (int)Species.Mimikyu, (int)Species.Magearna, (int)Species.Marshadow, (int)Species.Zeraora, (int)Species.Milcery, (int)Species.Zarude, (int)Species.Goomy,
-                                        (int)Species.Oranguru, (int)Species.Passimian, (int)Species.Drampa };
-
-        public static int[] CanBeShinyCherish = { (int)Species.Charizard, (int)Species.Pikachu, (int)Species.Machamp, (int)Species.Gengar, (int)Species.Magikarp, (int)Species.Gyarados, (int)Species.Eevee,
-                                                  (int)Species.Mewtwo, (int)Species.Tyranitar, (int)Species.HoOh, (int)Species.Celebi, (int)Species.Gardevoir, (int)Species.Milotic,
-                                                  (int)Species.Kyogre, (int)Species.Groudon, (int)Species.Rayquaza, (int)Species.Jirachi, (int)Species.Gastrodon, (int)Species.Palkia, (int)Species.Dialga,
-                                                  (int)Species.Giratina, (int)Species.Hydreigon, (int)Species.Volcarona, (int)Species.Genesect, (int)Species.Xerneas, (int)Species.Yveltal, (int)Species.Zygarde,
-                                                  (int)Species.Diancie, (int)Species.Mimikyu, (int)Species.Zeraora, (int)Species.Raikou, (int)Species.Entei };
-
-        public static int[] CherishShinyOnly = { (int)Species.Silvally, (int)Species.Golurk, (int)Species.Beldum, (int)Species.Necrozma, (int)Species.Poipole, (int)Species.Naganadel,
-                                                 (int)Species.TapuKoko, (int)Species.TapuLele, (int)Species.TapuFini, (int)Species.TapuBulu, (int)Species.Larvitar, (int)Species.Solgaleo,
-                                                 (int)Species.Lunala, (int)Species.Amoonguss, (int)Species.Krabby, (int)Species.Pichu, (int)Species.Suicune };
-
         public static int[] ShinyLock = { (int)Species.Victini, (int)Species.Keldeo, (int)Species.Volcanion, (int)Species.Cosmog, (int)Species.Cosmoem, (int)Species.Magearna,
                                           (int)Species.Marshadow, (int)Species.Zacian, (int)Species.Zamazenta, (int)Species.Eternatus, (int)Species.Kubfu, (int)Species.Urshifu,
                                           (int)Species.Zarude, (int)Species.Glastrier, (int)Species.Spectrier, (int)Species.Calyrex };
 
+        public static int[] Foreign = { 150, 151, 243, 244, 245, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 380, 381, 382, 383, 384, 385, 480, 481, 482, 483, 484, 485, 486, 487, 488, 494,
+                                        641, 642, 643, 644, 645, 646, 647, 649, 716, 717, 718, 719, 721, 722, 723, 724, 725, 726, 727, 728, 729, 730, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 795,
+                                        796, 797, 798, 799, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809 };
+
         public static int[] TradeEvo = { (int)Species.Machoke, (int)Species.Haunter, (int)Species.Boldore, (int)Species.Gurdurr, (int)Species.Phantump, (int)Species.Gourgeist };
-
         public static string[] PartnerPikachuHeadache = { "-Original", "-Partner", "-Hoenn", "-Sinnoh", "-Unova", "-Alola", "-Kalos", "-World" };
-
         public static string[] LGPEBalls = { "Poke", "Premier", "Great", "Ultra", "Master" };
-
-        public static int[] Pokeball = { 151, 722, 723, 724, 725, 726, 727, 728, 729, 730, 772, 789, 790, 810, 811, 812, 813, 814, 815, 816, 817, 818, 891, 892 };
-
-        public static int[] CherishOnly = { 251, 385, 494, 647, 649, 719, 721, 801, 802, 807, 893 };
-
+        public static int[] CherishOnly = { 251, 385, 494, 649, 719, 721, 801, 802, 807, 893 };
+        public static int[] Pokeball = { 151, 722, 723, 724, 725, 726, 727, 728, 729, 730, 772, 773, 789, 790, 810, 811, 812, 813, 814, 815, 816, 817, 818, 891, 892 };
         public static int[] UBs = { 793, 794, 795, 796, 797, 798, 799, 803, 804, 805, 806 };
-
         public static int[] GalarFossils = { 880, 881, 882, 883 };
-
         public static int[] SilvallyMemory = { 0, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 920 };
-
         public static int[] GenesectDrives = { 0, 116, 117, 118, 119 };
-
         public static int[] Amped = { 3, 4, 2, 8, 9, 19, 22, 11, 13, 14, 0, 6, 24 };
-
         public static int[] LowKey = { 1, 5, 7, 10, 12, 15, 16, 17, 18, 20, 21, 23 };
-
         public static readonly string[] Characteristics =
         {
             "Takes plenty of siestas",
@@ -130,27 +85,103 @@ namespace SysBot.Pokemon
             "Somewhat vain",
         };
 
-        public static void RngRoutine(PKM pkm)
+        public class TCRng
         {
-            var rng = new Random();
-            var troublesomeAltForms = pkm.Species == (int)Species.Raichu || pkm.Species == (int)Species.Giratina || pkm.Species == (int)Species.Silvally ||
-                                      pkm.Species == (int)Species.Genesect || pkm.Species == (int)Species.Articuno || pkm.Species == (int)Species.Zapdos || pkm.Species == (int)Species.Moltres;
+            private readonly int catchRng = Random.Next(101);
+            private int shinyRng = Random.Next(101);
+            private int eggShinyRng = Random.Next(101);
+            private readonly int eggRng = Random.Next(101);
+            private readonly int gmaxRng = Random.Next(101);
+            private int cherishRng = Random.Next(101);
+            private int speciesRng = 0;
+            private PK8 catchPKM = new();
+            private PK8 eggPKM = new();
 
-            pkm.AltForm = pkm.Species == (int)Species.Silvally || pkm.Species == (int)Species.Genesect || pkm.Species == (int)Species.Giratina ? rng.Next(pkm.PersonalInfo.FormeCount) : pkm.AltForm;
-            if (AltFormInfo.IsBattleOnlyForm(pkm.Species, pkm.AltForm, pkm.Format))
-                pkm.AltForm = AltFormInfo.GetOutOfBattleForm(pkm.Species, pkm.AltForm, pkm.Format);
-            else if (AltFormInfo.IsFusedForm(pkm.Species, pkm.AltForm, pkm.Format))
-                pkm.AltForm = 0;
+            public int CatchRNG { get => catchRng; }
+            public int ShinyRNG { get => shinyRng; set => shinyRng = value; }
+            public int EggRNG { get => eggRng; }
+            public int EggShinyRNG { get => eggShinyRng; set => eggShinyRng = value; }
+            public int GmaxRNG { get => gmaxRng; }
+            public int CherishRng { get => cherishRng; set => cherishRng = value; }
+            public int SpeciesRNG { get => speciesRng; set => speciesRng = value; }
+            public PK8 CatchPKM { get => catchPKM; set => catchPKM = value; }
+            public PK8 EggPKM { get => eggPKM; set => eggPKM = value; }
+        }
 
+        public class Daycare1
+        {
+            public bool Shiny { get; set; }
+            public int ID { get; set; }
+            public int Species { get; set; }
+            public string Form { get; set; } = "";
+            public int Ball { get; set; }
+        }
+
+        public class Daycare2
+        {
+            public bool Shiny { get; set; }
+            public int ID { get; set; }
+            public int Species { get; set; }
+            public string Form { get; set; } = "";
+            public int Ball { get; set; }
+        }
+
+        public class Catch
+        {
+            public bool Shiny { get; set; }
+            public int ID { get; set; }
+            public string Ball { get; set; } = "None";
+            public string Species { get; set; } = "None";
+            public string Form { get; set; } = "";
+            public bool Egg { get; set; }
+            public string Path { get; set; } = "";
+        }
+
+        public class TCUserInfo
+        {
+            public ulong UserID { get; set; }
+            public string TradedPath { get; set; } = "";
+            public int CatchCount { get; set; }
+            public Daycare1 Daycare1 { get; set; } = new();
+            public Daycare2 Daycare2 { get; set; } = new();
+            public string OTName { get; set; } = "";
+            public string OTGender { get; set; } = "";
+            public int TID { get; set; }
+            public int SID { get; set; }
+            public string Language { get; set; } = "";
+            public List<int> Dex { get; set; } = new();
+            public int DexCompletionCount { get; set; }
+            public List<int> Favorites { get; set; } = new();
+            public List<Catch> Catches { get; set; } = new();
+        }
+
+        public class TCUserInfoRoot
+        {
+            public List<TCUserInfo> Users { get; set; } = new();
+        }
+
+        public static bool ShinyLockCheck(int species, string ball, bool form)
+        {
+            if (ShinyLock.Contains(species))
+                return true;
+            else if (form && (species == (int)Species.Zapdos || species == (int)Species.Moltres || species == (int)Species.Articuno))
+                return true;
+            else if (ball.Contains("Beast") && (species == (int)Species.Poipole || species == (int)Species.Naganadel))
+                return true;
+            else return false;
+        }
+
+        public static PKM RngRoutine(PKM pkm)
+        {
+            var troublesomeAltForms = pkm.Species == (int)Species.Giratina || pkm.Species == (int)Species.Silvally || pkm.Species == (int)Species.Genesect || pkm.Species == (int)Species.Articuno || pkm.Species == (int)Species.Zapdos || pkm.Species == (int)Species.Moltres;
+            pkm.AltForm = pkm.Species == (int)Species.Silvally || pkm.Species == (int)Species.Genesect || pkm.Species == (int)Species.Giratina ? Random.Next(pkm.PersonalInfo.FormeCount) : pkm.AltForm;
             if (pkm.Species == (int)Species.Alcremie)
             {
                 Data = pkm.Data;
-                AlcremieDecoration = (uint)rng.Next(7);
-                var tempPkm = PKMConverter.GetPKMfromBytes(Data);
-                pkm = tempPkm ?? pkm;
+                AlcremieDecoration = (uint)Random.Next(7);
+                pkm = PKMConverter.GetPKMfromBytes(Data) ?? pkm;
             }
-
-            if (pkm.AltForm > 0 && troublesomeAltForms)
+            else if (pkm.AltForm > 0 && troublesomeAltForms)
             {
                 switch (pkm.Species)
                 {
@@ -158,12 +189,12 @@ namespace SysBot.Pokemon
                     case 144: pkm.Met_Location = 208; pkm.SetIsShiny(false); break;
                     case 145: pkm.Met_Location = 122; pkm.SetIsShiny(false); break;
                     case 146: pkm.Met_Location = 164; pkm.SetIsShiny(false); break;
-                    case 487: pkm.HeldItem = 112; break;
+                    case 487: pkm.HeldItem = 112; pkm.RefreshAbility(pkm.AbilityNumber); break;
                     case 649: pkm.HeldItem = GenesectDrives[pkm.AltForm]; break;
                     case 773: pkm.HeldItem = SilvallyMemory[pkm.AltForm]; break;
                 };
             }
-            else if (pkm.AltForm == 0 && !pkm.FatefulEncounter && troublesomeAltForms)
+            else if (pkm.AltForm == 0 && troublesomeAltForms)
             {
                 switch (pkm.Species)
                 {
@@ -179,57 +210,42 @@ namespace SysBot.Pokemon
             if (TradeEvo.Contains(pkm.Species))
                 pkm.HeldItem = 229;
 
-            pkm.Nature = pkm.FatefulEncounter ? pkm.Nature : 
-                pkm.Species == (int)Species.Toxtricity && pkm.AltForm > 0 ? LowKey[rng.Next(LowKey.Length)] : 
-                pkm.Species == (int)Species.Toxtricity && pkm.AltForm == 0 ? Amped[rng.Next(Amped.Length)] : rng.Next(25);
+            pkm.Nature = pkm.Species == (int)Species.Toxtricity && pkm.AltForm > 0 ? LowKey[Random.Next(LowKey.Length)] : pkm.Species == (int)Species.Toxtricity && pkm.AltForm == 0 ? Amped[Random.Next(Amped.Length)] : pkm.FatefulEncounter ? pkm.Nature : Random.Next(25);
             pkm.StatNature = pkm.Nature;
-            pkm.IVs = pkm.FatefulEncounter ? pkm.IVs : pkm.SetRandomIVs(5);
             pkm.ClearHyperTraining();
             pkm.SetSuggestedMoves(false);
             pkm.RelearnMoves = (int[])pkm.GetSuggestedRelearnMoves();
             pkm.Move1_PPUps = pkm.Move2_PPUps = pkm.Move3_PPUps = pkm.Move4_PPUps = 0;
             pkm.SetMaximumPPCurrent(pkm.Moves);
             pkm.FixMoves();
-
-            if (!pkm.FatefulEncounter)
-                pkm.SetAbilityIndex(Legends.Contains(pkm.Species) || UBs.Contains(pkm.Species) ? 0 : pkm.Met_Location == 244 || pkm.Met_Location == 30001 || GalarFossils.Contains(pkm.Species) ? 2 : rng.Next(3));
-
-            if (pkm.Species == (int)Species.Exeggutor && pkm.AltForm > 0 && pkm.Met_Location == 164)
-            {
-                pkm.Ball = 4;
-                pkm.SetAbilityIndex(2);
-            }
+            if (!GalarFossils.Contains(pkm.Species) && !pkm.FatefulEncounter)
+                pkm.SetAbilityIndex(Legends.Contains(pkm.Species) || UBs.Contains(pkm.Species) ? 0 : pkm.Met_Location == 244 || pkm.Met_Location == 30001 ? 2 : Random.Next(3));
 
             var la = new LegalityAnalysis(pkm);
-            var enc = la.EncounterMatch;
-            if (enc is MysteryGift mg && !la.Valid)
-            {
-                if (pkm.AbilityNumber == 1 << mg.AbilityType)
-                    pkm.SetAbilityIndex(1);
-                else pkm.SetAbilityIndex(0);
+            var enc = la.Info.EncounterMatch;
+            pkm.IVs = enc is EncounterStatic8N ? pkm.SetRandomIVs(5) : pkm.FatefulEncounter ? pkm.IVs : pkm.SetRandomIVs(4);
+            if (pkm.Species == (int)Species.Melmetal && !pkm.FatefulEncounter)
+                pkm.Met_Level = 15;
 
-                la = new LegalityAnalysis(pkm);
-                if (!la.Valid)
-                    pkm.SetAbilityIndex(2);
-            }
-
-            if (!pkm.FatefulEncounter || !LegalEdits.ValidBall(pkm))
+            if (!LegalEdits.ValidBall(pkm) || pkm.Species == (int)Species.Mew)
                 BallApplicator.ApplyBallLegalRandom(pkm);
-
-            _ = TrashBytes(pkm);
+            pkm = LegalityAttempt(pkm);
+            pkm = TrashBytes(pkm);
+            return pkm;
         }
 
-        public static PKM EggRngRoutine(List<string> content, List<string> trainerInfo, int form1, int form2, int evo1, int spID1, int evo2, int spID2)
+        public static PKM EggRngRoutine(TCUserInfo info, string trainerInfo, int evo1, int evo2, bool star, bool square)
         {
-            var rng = new Random();
-            var ballRng = $"\nBall: {(Ball)rng.Next(2, 26)}";
-            var ball1 = int.Parse(content[1].Split('_')[content[1].Contains("★") ? 3 : 2].Trim());
-            var ball2 = int.Parse(content[2].Split('_')[content[2].Contains("★") ? 3 : 2].Trim());
+            var pkm1 = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(info.Catches.Find(x => x.ID == info.Daycare1.ID).Path));
+            var pkm2 = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(info.Catches.Find(x => x.ID == info.Daycare2.ID).Path));
+            if (pkm1 == null || pkm2 == null)
+                return new PK8();
+            
+            var ballRng = $"\nBall: {(Ball)Random.Next(2, 27)}";
+            var ballRngDC = Random.Next(1, 3);
             bool specificEgg = (evo1 == evo2 && ValidEgg.Contains(evo1)) || ((evo1 == 132 || evo2 == 132) && (ValidEgg.Contains(evo1) || ValidEgg.Contains(evo2))) || ((evo1 == 29 || evo1 == 32) && (evo2 == 29 || evo2 == 32));
-            var shinyRng = content[1].Contains("★") && content[2].Contains("★") ? rng.Next(101) + 10 : rng.Next(101);
-            var ballRngDC = rng.Next(1, 3);
             var dittoLoc = DittoSlot(evo1, evo2);
-            var speciesRng = specificEgg ? SpeciesName.GetSpeciesNameGeneration(dittoLoc == 1 ? evo2 : evo1, 2, 8) : SpeciesName.GetSpeciesNameGeneration(ValidEgg[rng.Next(ValidEgg.Length)], 2, 8);
+            var speciesRng = specificEgg ? SpeciesName.GetSpeciesNameGeneration(dittoLoc == 1 ? evo2 : evo1, 2, 8) : SpeciesName.GetSpeciesNameGeneration(ValidEgg[Random.Next(ValidEgg.Length)], 2, 8);
             var speciesRngID = SpeciesName.GetSpeciesID(speciesRng);
             FormOutput(speciesRngID, 0, out string[] forms);
 
@@ -238,44 +254,42 @@ namespace SysBot.Pokemon
 
             string formHelper = speciesRng switch
             {
-                "Indeedee" => _ = specificEgg && dittoLoc == 1 ? FormOutput(876, form2, out _) : specificEgg && dittoLoc == 2 ? FormOutput(876, form1, out _) : FormOutput(876, rng.Next(2), out _),
-                "Nidoran" => _ = specificEgg && dittoLoc == 1 ? (evo2 == 32 ? "-M" : "-F") : specificEgg && dittoLoc == 2 ? (evo1 == 32 ? "-M" : "-F") : (rng.Next(2) == 0 ? "-M" : "-F"),
-                "Meowth" => _ = FormOutput(speciesRngID, specificEgg && (spID1 == 863 || spID2 == 863) ? 2 : specificEgg && dittoLoc == 1 ? form2 : specificEgg && dittoLoc == 2 ? form1 : rng.Next(forms.Length), out _),
+                "Indeedee" => _ = specificEgg && dittoLoc == 1 ? FormOutput(876, pkm2.AltForm, out _) : specificEgg && dittoLoc == 2 ? FormOutput(876, pkm1.AltForm, out _) : FormOutput(876, Random.Next(2), out _),
+                "Nidoran" => _ = specificEgg && dittoLoc == 1 ? (evo2 == 32 ? "-M" : "-F") : specificEgg && dittoLoc == 2 ? (evo1 == 32 ? "-M" : "-F") : (Random.Next(2) == 0 ? "-M" : "-F"),
+                "Meowth" => _ = FormOutput(speciesRngID, specificEgg && (pkm1.Species == 863 || pkm2.Species == 863) ? 2 : specificEgg && dittoLoc == 1 ? pkm2.AltForm : specificEgg && dittoLoc == 2 ? pkm1.AltForm : Random.Next(forms.Length), out _),
                 "Sinistea" => "",
-                _ => FormOutput(speciesRngID, specificEgg && form1.Equals(form2) ? form1 : specificEgg && dittoLoc == 1 ? form2 : specificEgg && dittoLoc == 2 ? form1 : rng.Next(forms.Length), out _),
+                _ => FormOutput(speciesRngID, specificEgg && pkm1.AltForm == pkm2.AltForm ? pkm1.AltForm : specificEgg && dittoLoc == 1 ? pkm2.AltForm : specificEgg && dittoLoc == 2 ? pkm1.AltForm : Random.Next(forms.Length), out _),
             };
 
-            var set = new ShowdownSet($"Egg({speciesRng}{formHelper}){(ballRng.Contains("Cherish") || Pokeball.Contains(SpeciesName.GetSpeciesID(speciesRng)) ? "\nBall: Poke" : ballRng)}\n{string.Join("\n", trainerInfo)}");
+            var set = new ShowdownSet($"Egg({speciesRng}{formHelper}){(ballRng.Contains("Cherish") || Pokeball.Contains(SpeciesName.GetSpeciesID(speciesRng)) ? "\nBall: Poke" : ballRng)}\n{trainerInfo}");
             var template = AutoLegalityWrapper.GetTemplate(set);
             var sav = AutoLegalityWrapper.GetTrainerInfo(8);
             var pkm = sav.GetLegal(template, out _);
 
             if (!specificEgg && pkm.PersonalInfo.HasFormes && pkm.Species != (int)Species.Sinistea && pkm.Species != (int)Species.Indeedee)
-                pkm.AltForm = rng.Next(pkm.PersonalInfo.FormeCount);
-
+                pkm.AltForm = Random.Next(pkm.PersonalInfo.FormeCount);
             if (pkm.Species == (int)Species.Rotom)
                 pkm.AltForm = 0;
-
             if (AltFormInfo.IsBattleOnlyForm(pkm.Species, pkm.AltForm, pkm.Format))
                 pkm.AltForm = AltFormInfo.GetOutOfBattleForm(pkm.Species, pkm.AltForm, pkm.Format);
 
             if (ballRngDC == 1)
-                pkm.Ball = ball1;
+                pkm.Ball = info.Daycare1.Ball;
             else if (ballRngDC == 2)
-                pkm.Ball = ball2;
+                pkm.Ball = info.Daycare2.Ball;
 
             EggTrade((PK8)pkm);
-            pkm.SetAbilityIndex(rng.Next(3));
-            pkm.Nature = rng.Next(25);
+            pkm.SetAbilityIndex(Random.Next(3));
+            pkm.Nature = Random.Next(25);
             pkm.StatNature = pkm.Nature;
             pkm.IVs = pkm.SetRandomIVs(4);
 
             if (!pkm.ValidBall())
                 BallApplicator.ApplyBallLegalRandom(pkm);
 
-            if (shinyRng > 98)
+            if (square)
                 CommonEdits.SetShiny(pkm, Shiny.AlwaysSquare);
-            else if (shinyRng > 95)
+            else if (star)
                 CommonEdits.SetShiny(pkm, Shiny.AlwaysStar);
 
             return pkm;
@@ -325,6 +339,7 @@ namespace SysBot.Pokemon
 
             pkm.IsEgg = true;
             pkm.Egg_Location = 60002;
+            pkm.MetDate = DateTime.Parse("2020/10/20");
             pkm.EggMetDate = pkm.MetDate;
             pkm.HeldItem = 0;
             pkm.CurrentLevel = 1;
@@ -385,10 +400,8 @@ namespace SysBot.Pokemon
             _ = formString.Length == form && form != 0 ? form -= 1 : form;
 
             if (formString[form] == "Normal" || formString[form].Contains("-") && species != (int)Species.Zygarde || formString[form] == "")
-                formString[form] = "";
-            else formString[form] = "-" + formString[form];
-
-            return formString[form];
+                return "";
+            else return "-" + formString[form];
         }
 
         private static int DittoSlot(int species1, int species2)
@@ -431,13 +444,57 @@ namespace SysBot.Pokemon
             File.WriteAllText("EncounterLog.txt", string.Join("\n", content));
         }
 
-        public static PKM TrashBytes(PKM pkm)
+        public static PKM TrashBytes(PKM pkm, LegalityAnalysis? la = null)
         {
-            pkm.MetDate = DateTime.Parse("2020/10/20");
             pkm.Nickname = "KOIKOIKOIKOI";
             pkm.IsNicknamed = true;
-            pkm.ClearNickname();
+            if (la != null)
+                pkm.SetDefaultNickname(la);
+            else pkm.ClearNickname();
             return pkm;
+        }
+
+        public static string DexFlavor(int species)
+        {
+            var resourcePath = "SysBot.Pokemon.Helpers.DexFlavor.txt";
+            using StreamReader reader = new(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(resourcePath));
+            return reader.ReadToEnd().Split('\n')[species];
+        }
+
+        public static PKM LegalityAttempt(PKM pkm)
+        {
+            var la = new LegalityAnalysis(pkm);
+            if (!la.Valid)
+            {
+                var list = la.Results.ToList().FindAll(x => x.Judgement == Severity.Invalid);
+                foreach (var invalid in list)
+                {
+                    switch (invalid.Identifier)
+                    {
+                        case CheckIdentifier.Form: pkm.HeldItem = pkm.Species == (int)Species.Giratina && pkm.AltForm == 1 ? pkm.HeldItem = 112 : pkm.HeldItem; break;
+                        case CheckIdentifier.Nickname: CommonEdits.SetDefaultNickname(pkm, la); break;
+                        case CheckIdentifier.Memory: pkm.CurrentHandler = pkm.CurrentHandler == 0 ? pkm.CurrentHandler = 1 : pkm.CurrentHandler = 0; break;
+                        case CheckIdentifier.Ability: pkm.AbilityNumber = pkm.AbilityNumber == 4 ? pkm.AbilityNumber = 1 : pkm.AbilityNumber; pkm.RefreshAbility(pkm.AbilityNumber); break;
+                        case CheckIdentifier.Language: pkm.Language = pkm.Language == 2 ? pkm.Language = 1 : pkm.Language; pkm.ClearNickname(); break;
+                        case CheckIdentifier.Shiny: _ = pkm.ShinyXor == 0 ? CommonEdits.SetShiny(pkm, Shiny.AlwaysStar) : pkm.ShinyXor <= 16 ? CommonEdits.SetShiny(pkm, Shiny.AlwaysSquare) : CommonEdits.SetShiny(pkm, Shiny.Never); break;
+                    };
+                }
+            }
+            pkm = TrashBytes(pkm, la);
+            pkm.RefreshChecksum();
+            return pkm;
+        }
+
+        public static PK8 CherishHandler(MysteryGift mg)
+        {
+            var mgPkm = mg.ConvertToPKM(AutoLegalityWrapper.GetTrainerInfo(8));
+            mgPkm = PKMConverter.IsConvertibleToFormat(mgPkm, 8) ? PKMConverter.ConvertToType(mgPkm, typeof(PK8), out _) : mgPkm;
+            if (mgPkm != null)
+            {
+                mgPkm.CurrentHandler = 1;
+                return (PK8)mgPkm;
+            }
+            else return new();
         }
     }
 }

@@ -71,7 +71,7 @@ namespace SysBot.Pokemon.Discord
                 }
                 catch (Exception ex)
                 {
-                    Base.LogUtil.LogText("Error occurred: " + ex.InnerException);
+                    Base.EchoUtil.Echo("Error occurred: " + ex.InnerException);
                     TradeExtensions.TradeCordPath.RemoveAll(x => x.Contains(user));
                 }
             }

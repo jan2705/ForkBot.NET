@@ -46,12 +46,6 @@ namespace SysBot.Pokemon
         [Category(TradeCode), Description("Enter either direct picture or gif links, or file names with extensions. For example, file1.png, file2.jpg, etc.")]
         public string MemeFileNames { get; set; } = string.Empty;
 
-        [Category(TradeCode), Description("Enter Channel ID(s) where TradeCord should be active, or leave blank.")]
-        public string TradeCordChannels { get; set; } = string.Empty;
-
-        [Category(TradeCode), Description("Enter the amount of time in seconds until a user can catch again.")]
-        public double TradeCordCooldown { get; set; } = 60;
-
         /// <summary>
         /// Gets a random trade code based on the range settings.
         /// </summary>
