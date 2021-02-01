@@ -207,7 +207,8 @@ namespace SysBot.Pokemon.Discord
             {
                 var speciesName = SpeciesName.GetSpeciesNameGeneration(TCRng.SpeciesRNG, 2, 8);
                 var mgRng = MGRngEvent == default ? MysteryGiftRng() : MGRngEvent;
-                if ((TradeExtensions.CherishOnly.Contains(TCRng.SpeciesRNG) || TCRng.CherishRng >= 100 - Info.Hub.Config.TradeCord.CherishRate || MGRngEvent != default) && mgRng != default)
+                bool melmetalHack = TCRng.SpeciesRNG == (int)Species.Melmetal && TCRng.GmaxRNG >= 100 - Info.Hub.Config.TradeCord.GmaxRate;
+                if ((TradeExtensions.CherishOnly.Contains(TCRng.SpeciesRNG) || TCRng.CherishRng >= 100 - Info.Hub.Config.TradeCord.CherishRate || MGRngEvent != default || melmetalHack) && mgRng != default)
                 {
                     TCRng.CatchPKM = TradeExtensions.CherishHandler(mgRng);
                     TradeExtensions.LegalityAttempt(TCRng.CatchPKM);
@@ -1277,10 +1278,13 @@ namespace SysBot.Pokemon.Discord
                 for (int i = 0; i < mg.Count; i++)
                     mg.RemoveAll(x => x.GetDescription().Count() < 3);
 
+                if (mg.Count == 0)
+                    return mgRng;
+
                 if (TCRng.ShinyRNG >= 100 - Info.Hub.Config.TradeCord.SquareShinyRate || TCRng.ShinyRNG >= 100 - Info.Hub.Config.TradeCord.StarShinyRate)
                 {
                     var mgSh = mg.FindAll(x => x.IsShiny);
-                    mgRng = mgSh.Count > 0 ? mgSh.ElementAt(TradeExtensions.Random.Next(mgSh.Count)) : mgRng;
+                    mgRng = mgSh.Count > 0 ? mgSh.ElementAt(mg.Count == 1 ? 0 : TradeExtensions.Random.Next(mgSh.Count)) : mgRng;
                 }
                 else mgRng = mg.ElementAt(TradeExtensions.Random.Next(mg.Count));
             }
