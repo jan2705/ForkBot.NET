@@ -274,7 +274,7 @@ namespace SysBot.Pokemon.Discord
             }
 
             TradeExtensions.TradeCordPath.Add(match.Path);
-            TCInfo.TradedPath = Path.Combine($"TradeCord\\Backup\\{TCInfo.UserID}", match.Path.Split('\\')[2]);
+            TCInfo.TradedPath = match.Path;
             UpdateUserInfo(TCInfo);
             var sig = Context.User.GetFavor();
             await Context.AddToQueueAsync(code, Context.User.Username, sig, (PK8)pkm, PokeRoutineType.TradeCord, PokeTradeType.TradeCord).ConfigureAwait(false);
@@ -957,9 +957,9 @@ namespace SysBot.Pokemon.Discord
             TCInfo = GetUserInfo(Context.User.Id);
             if (TCInfo.TradedPath != "")
             {
-                if (File.Exists(TCInfo.TradedPath))
+                if (!File.Exists(TCInfo.TradedPath))
                 {
-                    TCInfo.Catches.Remove(TCInfo.Catches.Find(x => Path.Combine($"TradeCord\\Backup\\{TCInfo.UserID}", x.Path.Split('\\')[2]) == TCInfo.TradedPath));
+                    TCInfo.Catches.Remove(TCInfo.Catches.Find(x => x.Path == TCInfo.TradedPath));
                     TCInfo.TradedPath = "";
                     UpdateUserInfo(TCInfo);
                 }
