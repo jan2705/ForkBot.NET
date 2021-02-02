@@ -63,17 +63,10 @@ namespace SysBot.Pokemon.Discord
             if (info.Type == PokeTradeType.TradeCord)
             {
                 var user = Trader.Id.ToString();
-                var original = TradeExtensions.TradeCordPath.FirstOrDefault(x => x.Contains(user));
-                TradeExtensions.TradeCordPath.Remove(original);
-                try
-                {
-                    System.IO.File.Move(original, System.IO.Path.Combine($"TradeCord\\Backup\\{user}", original.Split('\\')[2]));
-                }
-                catch (Exception ex)
-                {
-                    Base.EchoUtil.Echo("Error occurred: " + ex.InnerException);
-                    TradeExtensions.TradeCordPath.RemoveAll(x => x.Contains(user));
-                }
+                var origPath = TradeExtensions.TradeCordPath.FirstOrDefault(x => x.Contains(user));
+                var tradedPath = System.IO.Path.Combine($"TradeCord\\Backup\\{user}", origPath.Split('\\')[2]);
+                System.IO.File.Move(origPath, tradedPath);
+                TradeExtensions.TradeCordPath.Remove(origPath);
             }
         }
 

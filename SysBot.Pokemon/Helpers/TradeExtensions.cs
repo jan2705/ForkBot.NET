@@ -140,7 +140,7 @@ namespace SysBot.Pokemon
         public class TCUserInfo
         {
             public ulong UserID { get; set; }
-            public string TradedPath { get; set; } = "";
+            public Catch? TradedPKM { get; set; }
             public int CatchCount { get; set; }
             public Daycare1 Daycare1 { get; set; } = new();
             public Daycare2 Daycare2 { get; set; } = new();

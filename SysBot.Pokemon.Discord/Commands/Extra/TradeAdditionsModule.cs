@@ -273,8 +273,9 @@ namespace SysBot.Pokemon.Discord
                 return;
             }
 
+            TCInfo.TradedPKM = match;
+            TCInfo.Catches.Remove(match);
             TradeExtensions.TradeCordPath.Add(match.Path);
-            TCInfo.TradedPath = match.Path;
             UpdateUserInfo(TCInfo);
             var sig = Context.User.GetFavor();
             await Context.AddToQueueAsync(code, Context.User.Username, sig, (PK8)pkm, PokeRoutineType.TradeCord, PokeTradeType.TradeCord).ConfigureAwait(false);
@@ -927,7 +928,7 @@ namespace SysBot.Pokemon.Discord
                             jobject.Users.Add(new TradeExtensions.TCUserInfo
                             {
                                 UserID = ulong.Parse(userid),
-                                TradedPath = "",
+                                TradedPKM = null,
                                 CatchCount = int.TryParse(info[0], out int count) ? count : 0,
                                 Daycare1 = dc1 ? dcPkm1 : new TradeExtensions.Daycare1 { },
                                 Daycare2 = dc2 ? dcPkm2 : new TradeExtensions.Daycare2 { },
@@ -955,19 +956,14 @@ namespace SysBot.Pokemon.Discord
             }
 
             TCInfo = GetUserInfo(Context.User.Id);
-            if (TCInfo.TradedPath != "")
+            if (TCInfo.TradedPKM != null && TradeExtensions.TradeCordPath.FirstOrDefault(x => x.Contains(TCInfo.UserID.ToString())) == default)
             {
-                if (!File.Exists(TCInfo.TradedPath))
-                {
-                    TCInfo.Catches.Remove(TCInfo.Catches.Find(x => x.Path == TCInfo.TradedPath));
-                    TCInfo.TradedPath = "";
-                    UpdateUserInfo(TCInfo);
-                }
-                else
-                {
-                    TCInfo.TradedPath = "";
-                    UpdateUserInfo(TCInfo);
-                }
+                var tradedPath = Path.Combine($"TradeCord\\Backup\\{TCInfo.UserID}", TCInfo.TradedPKM.Path.Split('\\')[2]);
+                if (!File.Exists(tradedPath))
+                    TCInfo.Catches.Add(TCInfo.TradedPKM);
+
+                TCInfo.TradedPKM = null;
+                UpdateUserInfo(TCInfo);
             }
         }
 
