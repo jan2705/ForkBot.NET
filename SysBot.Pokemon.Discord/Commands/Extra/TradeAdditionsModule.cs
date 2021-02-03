@@ -1268,19 +1268,14 @@ namespace SysBot.Pokemon.Discord
         private MysteryGift? MysteryGiftRng()
         {
             var mg = EncounterEvent.GetAllEvents().Where(x => x.Species == TCRng.SpeciesRNG).ToList();
+            mg.RemoveAll(x => x.GetDescription().Count() < 3);
             MysteryGift? mgRng = default;
             if (mg.Count > 0)
             {
-                for (int i = 0; i < mg.Count; i++)
-                    mg.RemoveAll(x => x.GetDescription().Count() < 3);
-
-                if (mg.Count == 0)
-                    return mgRng;
-
                 if (TCRng.ShinyRNG >= 100 - Info.Hub.Config.TradeCord.SquareShinyRate || TCRng.ShinyRNG >= 100 - Info.Hub.Config.TradeCord.StarShinyRate)
                 {
                     var mgSh = mg.FindAll(x => x.IsShiny);
-                    mgRng = mgSh.Count > 0 ? mgSh.ElementAt(mg.Count == 1 ? 0 : TradeExtensions.Random.Next(mgSh.Count)) : mgRng;
+                    mgRng = mgSh.Count > 0 ? mgSh.ElementAt(TradeExtensions.Random.Next(mgSh.Count)) : mg.ElementAt(TradeExtensions.Random.Next(mg.Count));
                 }
                 else mgRng = mg.ElementAt(TradeExtensions.Random.Next(mg.Count));
             }
